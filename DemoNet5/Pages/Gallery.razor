@@ -1,0 +1,49 @@
+﻿@page "/gallery"
+@inject HttpClient HttpClient
+
+<h1 class="title" @onclick="GetData">
+    Virtualize
+</h1>
+
+<div class="container">
+
+    <Virtualize Context="Photo" Items="Photos">
+        <div class="horizontal-card">
+            <div class="img-card">
+                <img src="@Photo.download_url">
+            </div>
+            <div class="card-body">
+                <h1>Photo.author</h1>
+                <hr />
+                <h4>Detalles</h4>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    In vulputate dui nibh, eget tincidunt diam aliquam quis.
+                    Pellentesque ac vehicula eros.
+                    Aenean venenatis risus vitae nulla convallis viverra.
+                    Aenean libero dolor, condimentum non urna sed, mattis consequat turpis.
+                    Cras commodo vulputate eros id ornare.
+                </p>
+            </div>
+        </div>
+    </Virtualize>
+
+</div>
+
+
+
+
+@code {
+
+    List<Models.Photo> Photos = new List<Models.Photo>();
+
+    async void GetData()
+    {
+        var Result = await HttpClient.
+            GetFromJsonAsync<List<Models.Photo>>("");
+        if (Result.Count > 0)
+        {
+            Photos = Result;
+        }
+    }
+}

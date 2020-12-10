@@ -1,0 +1,28 @@
+﻿@page "/details"
+
+<div>
+
+    <details id="details-toggle" @ontoggle="OnToggle">
+        <summary>¡Bienvenidos!</summary>
+        <p>Lanzamiento de .NET 5 </p>
+    </details>
+
+        @if (detailsExpanded)
+        {
+
+            <div class="alert alert-success" role="alert">
+                Gracias por acompañarnos en este evento online.
+
+            </div>
+        }
+    </div>
+
+    @code {
+        bool detailsExpanded;
+        string message { get; set; }
+
+        void OnToggle()
+        {
+            detailsExpanded = !detailsExpanded;
+        }
+    }
