@@ -1,0 +1,62 @@
+﻿@page "/galleryprovider"
+@inject HttpClient HttpClient
+
+<h1 class="title" >
+    Virtualize
+</h1>
+
+<div class="container">
+
+    <Virtualize Context="Photo" ItemsProvider="@LoadPhotos">
+        <ItemContent>
+            <div class="horizontal-card">
+                <div class="img-card">
+                    <img src="@Photo.download_url">
+                </div>
+                <div class="card-body">
+                    <h1>@Photo.author</h1>
+                    <hr />
+                    <h4>Detalles</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        In vulputate dui nibh, eget tincidunt diam aliquam quis.
+                        Pellentesque ac vehicula eros.
+                        Aenean venenatis risus vitae nulla convallis viverra.
+                        Aenean libero dolor, condimentum non urna sed, mattis consequat turpis.
+                        Cras commodo vulputate eros id ornare.
+                    </p>
+                </div>
+            </div>
+        </ItemContent>
+        <Placeholder>
+            <div class="horizontal-card">
+                <div class="img-card">
+                    <img  alt="Cargando..." >
+                </div>
+                <div class="card-body">
+                    <h1>Author</h1>
+                    <hr />
+                    <h4>Detalles</h4>
+                    <p>
+                        Cargando...
+                    </p>
+                </div>
+            </div>
+        </Placeholder>
+    </Virtualize>
+
+</div>
+
+
+
+
+@code { 
+
+
+    protected async ValueTask<ItemsProviderResult<Models.Photo>> LoadPhotos(ItemsProviderRequest request)
+    {
+        var Photos = await HttpClient.GetFromJsonAsync<List<Models.Photo>>("");
+        return new ItemsProviderResult<Models.Photo>
+        (Photos.Skip(request.StartIndex).Take(request.Count), Photos.Count());
+    }
+}
